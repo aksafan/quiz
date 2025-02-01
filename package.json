@@ -1,0 +1,19 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "A quiz app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aksafan/quiz.git"
+  },
+  "author": "aksafan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aksafan/quiz/issues"
+  },
+  "homepage": "https://github.com/aksafan/quiz#readme"
+}
