@@ -20,6 +20,9 @@ store.on("error", function (error) {
   console.log(error);
 });
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser(process.env.SESSION_SECRET));
+
 const sessionParms = {
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -28,12 +31,17 @@ const sessionParms = {
   cookie: { secure: false, sameSite: "strict" },
 };
 
+let csrf_development_mode = true;
 if (app.get("env") === "production") {
+  csrf_development_mode = false;
   app.set("trust proxy", 1); // trust first proxy
   sessionParms.cookie.secure = true; // serve secure cookies
 }
 
 app.use(session(sessionParms));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(require("./middleware/csrf")(csrf_development_mode));
 
 app.use(require("connect-flash")());
 
