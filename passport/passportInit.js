@@ -35,7 +35,9 @@ const passportInit = () => {
     try {
       const user = await User.findById(id);
       if (!user) {
-        return done(new Error("user not found"));
+        return done(null, false, {
+          message: "You can't access that page before logon.",
+        });
       }
 
       return done(null, user);
