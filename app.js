@@ -1,6 +1,11 @@
 const express = require("express");
 require("express-async-errors");
 
+// extra security packages
+const rateLimiter = require("express-rate-limit");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -41,6 +46,14 @@ if (app.get("env") === "production") {
 app.use(session(sessionParms));
 
 app.use(require("./middleware/csrf")(csrf_development_mode));
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+  }),
+);
+app.use(helmet());
+app.use(xss());
 
 app.use(require("connect-flash")());
 
@@ -59,8 +72,11 @@ app.use("/sessions", require("./routes/sessionRoutes"));
 
 // secret word handling
 const secretWordRouter = require("./routes/secretWord");
-const auth = require("./middleware/auth");
-app.use("/secretWord", auth, secretWordRouter);
+const { authMiddleware, RBACMiddleware } = require("./middleware/auth");
+app.use("/secretWord", authMiddleware, secretWordRouter);
+
+const questionsRouter = require("./routes/questions");
+app.use("/admin/questions", [authMiddleware, RBACMiddleware], questionsRouter);
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
