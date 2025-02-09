@@ -1,5 +1,5 @@
 const ADMIN = "admin";
-const USER = "admin";
+const USER = "user";
 
 const ROLES = {
   USER,

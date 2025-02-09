@@ -4,17 +4,17 @@
 <h2>Questions List</h2>
 
 <a href="/admin/questions/new">New Question</a>
-<table id="questions-table">
-    <tr id="questions-table-header">
-        <th>Question</th>
-        <th>Category</th>
-        <th>Difficulty</th>
-        <th>Type</th>
-        <th>Created At</th>
-        <th>Options</th>
-        <th colspan="2"></th>
-    </tr>
-    <% if (questions && questions.length) { %>
+<% if (questions && questions.length) { %>
+    <table id="questions-table">
+        <tr id="questions-table-header">
+            <th>Question</th>
+            <th>Category</th>
+            <th>Difficulty</th>
+            <th>Type</th>
+            <th>Created At</th>
+            <th>Options</th>
+            <th colspan="2"></th>
+        </tr>
         <% questions.forEach((question) => { %>
             <tr>
                 <td><%= question.questionText %></td>
@@ -45,7 +45,11 @@
                 </td>
             </tr>
         <% }) %>
-    <% } %>
-</table>
+    </table>
+<% } else { %>
+    <div>
+        No data found
+    </div>
+<% } %>
 
 <%- include("../../layouts/footer.ejs") %>

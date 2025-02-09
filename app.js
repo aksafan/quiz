@@ -16,12 +16,13 @@ const questionsRouter = require("./routes/questions");
 const authRouter = require("./routes/auth");
 // error handlers
 const notFoundErrorHandler = require("./middleware/errors/notFound");
-const internalServerErrorErrorHandler = require("./middleware/errors/internalServerError");
+const errorHandlerMiddleware = require("./middleware/errors/errorHandler");
 // extra security packages
 const rateLimiter = require("express-rate-limit");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const csrf = require("./middleware/csrf");
+const mongoSanitize = require("express-mongo-sanitize");
 // DB
 const connectDB = require("./db/connect");
 
@@ -71,6 +72,7 @@ app.use(
 );
 app.use(helmet());
 app.use(xss());
+app.use(mongoSanitize());
 
 // auth
 passportInit();
@@ -83,12 +85,16 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 app.use("/auth", authRouter);
-const { ADMIN } = require("./constants/roles");
-app.use("/admin/questions", [authenticate, authorize(ADMIN)], questionsRouter);
+const { ADMIN, USER } = require("./constants/roles");
+app.use(
+  "/admin/questions",
+  [authenticate, authorize(ADMIN, USER)],
+  questionsRouter,
+);
 
 // error handler middlewares
-app.use(internalServerErrorErrorHandler);
 app.use(notFoundErrorHandler);
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3000;
 const start = async () => {

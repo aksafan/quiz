@@ -1,7 +1,7 @@
-const authorize = (role) => {
+const authorize = (...roles) => {
   return async (req, res, next) => {
-    if (req.user.role !== role) {
-      req.flash("error", "Access denied. Admins only.");
+    if (!roles.includes(req.user.role)) {
+      req.flash("error", "Unauthorized to access this route");
       res.redirect("/");
     }
 
