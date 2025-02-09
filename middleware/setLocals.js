@@ -1,4 +1,4 @@
-const storeLocals = (req, res, next) => {
+const setLocals = (req, res, next) => {
   if (req.user) {
     res.locals.user = req.user;
   } else {
@@ -10,4 +10,4 @@ const storeLocals = (req, res, next) => {
   next();
 };
 
-module.exports = storeLocals;
+module.exports = setLocals;

@@ -8,7 +8,7 @@ const {
   registerShow,
   registerDo,
   logoff,
-} = require("../controllers/sessionController");
+} = require("../controllers/auth");
 
 router.route("/register").get(registerShow).post(registerDo);
 router
@@ -16,7 +16,7 @@ router
   .get(logonShow)
   .post(
     passport.authenticate("local", {
-      failureRedirect: "/sessions/logon",
+      failureRedirect: "/auth/logon",
       failureFlash: true,
     }),
     // successRedirect override to add csrf token refreshing

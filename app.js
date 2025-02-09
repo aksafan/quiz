@@ -1,33 +1,49 @@
+// Module dependencies
 const express = require("express");
 require("express-async-errors");
-
+// session persistence
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+require("dotenv").config();
+const cookieParser = require("cookie-parser");
+// auth
+const passport = require("passport");
+const passportInit = require("./passport/passportInit");
+const authenticate = require("./middleware/authentication");
+const authorize = require("./middleware/authorization");
+// routers
+const questionsRouter = require("./routes/questions");
+const authRouter = require("./routes/auth");
+// error handlers
+const notFoundErrorHandler = require("./middleware/errors/notFound");
+const internalServerErrorErrorHandler = require("./middleware/errors/internalServerError");
 // extra security packages
 const rateLimiter = require("express-rate-limit");
 const helmet = require("helmet");
 const xss = require("xss-clean");
+const csrf = require("./middleware/csrf");
+// DB
+const connectDB = require("./db/connect");
 
 const app = express();
 
+// config
 app.set("view engine", "ejs");
+
+// middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(require("connect-flash")());
 
-require("dotenv").config(); // to load the .env file into the process.env object
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
+// session-persisted message middleware
 const url = process.env.MONGO_DB_CONNECTING_STRING;
-
 const store = new MongoDBStore({
-  // may throw an error, which won't be caught
   uri: url,
   collection: "mySessions",
 });
 store.on("error", function (error) {
   console.log(error);
 });
-
-const cookieParser = require("cookie-parser");
-app.use(cookieParser(process.env.SESSION_SECRET));
-
 const sessionParms = {
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -35,17 +51,18 @@ const sessionParms = {
   store: store,
   cookie: { secure: false, sameSite: "strict" },
 };
+app.use(session(sessionParms));
 
+// csrf-protection middleware
 let csrf_development_mode = true;
 if (app.get("env") === "production") {
   csrf_development_mode = false;
   app.set("trust proxy", 1); // trust first proxy
   sessionParms.cookie.secure = true; // serve secure cookies
 }
+app.use(csrf(csrf_development_mode));
 
-app.use(session(sessionParms));
-
-app.use(require("./middleware/csrf")(csrf_development_mode));
+// extra security middlewares
 app.use(
   rateLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -55,43 +72,28 @@ app.use(
 app.use(helmet());
 app.use(xss());
 
-app.use(require("connect-flash")());
-
-const passport = require("passport");
-const passportInit = require("./passport/passportInit");
-
+// auth
 passportInit();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require("./middleware/setLocals"));
 
-app.use(require("./middleware/storeLocals"));
+// routes
 app.get("/", (req, res) => {
-  res.render("index", { user2: req.user });
+  res.render("index");
 });
-app.use("/sessions", require("./routes/sessionRoutes"));
+app.use("/auth", authRouter);
+const { ADMIN } = require("./constants/roles");
+app.use("/admin/questions", [authenticate, authorize(ADMIN)], questionsRouter);
 
-// secret word handling
-const secretWordRouter = require("./routes/secretWord");
-const { authMiddleware, RBACMiddleware } = require("./middleware/auth");
-app.use("/secretWord", authMiddleware, secretWordRouter);
-
-const questionsRouter = require("./routes/questions");
-app.use("/admin/questions", [authMiddleware, RBACMiddleware], questionsRouter);
-
-app.use((req, res) => {
-  res.status(404).send(`That page (${req.url}) was not found.`);
-});
-
-app.use((err, req, res, next) => {
-  res.status(500).send(err.message);
-  console.log(err);
-});
+// error handler middlewares
+app.use(internalServerErrorErrorHandler);
+app.use(notFoundErrorHandler);
 
 const port = process.env.PORT || 3000;
-
 const start = async () => {
   try {
-    await require("./db/connect")(process.env.MONGO_DB_CONNECTING_STRING);
+    await connectDB(process.env.MONGO_DB_CONNECTING_STRING);
 
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`),

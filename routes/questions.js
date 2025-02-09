@@ -16,8 +16,8 @@ router.route("/").get(getAllQuestions).post(createQuestion);
 
 router.route("/new").get(newQuestion);
 router.route("/edit/:id").get(editQuestion);
-// router.route("/delete/:id").post(deleteQuestion); // this is a fix
+router.route("/delete/:id").post(deleteQuestion);
 
-router.route("/:id").get(getQuestion).post(updateQuestion).post(deleteQuestion);
+router.route("/:id").get(getQuestion).post(updateQuestion);
 
 module.exports = router;

@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { ROLES } = require("../constants/roles");
 const Types = mongoose.Schema.Types;
-const ROLES = {
-  USER: "user",
-  ADMIN: "admin",
-};
 
 const UserSchema = new mongoose.Schema({
   username: {

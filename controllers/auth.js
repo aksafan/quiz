@@ -1,15 +1,15 @@
 const User = require("../models/User");
-const parseVErr = require("../utils/parseValidationErrs");
+const parseVErr = require("../utils/parseValidationErrors");
 
 const registerShow = (req, res) => {
-  res.render("register");
+  res.render("auth/users/register");
 };
 
 const registerDo = async (req, res, next) => {
   if (req.body.password !== req.body.password1) {
     req.flash("error", "The passwords entered do not match.");
 
-    return res.render("register", { errors: req.flash("error") });
+    return res.render("auth/users/register", { errors: req.flash("error") });
   }
 
   try {
@@ -23,7 +23,7 @@ const registerDo = async (req, res, next) => {
       return next(e);
     }
 
-    return res.render("register", { errors: req.flash("error") });
+    return res.render("auth/users/register", { errors: req.flash("error") });
   }
 
   res.redirect("/");
@@ -44,7 +44,7 @@ const logonShow = (req, res) => {
     return res.redirect("/");
   }
 
-  res.render("logon");
+  res.render("auth/users/logon");
 };
 
 module.exports = {

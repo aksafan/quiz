@@ -1,8 +1,3 @@
-<%- include("partials/head.ejs") %>
-<%- include("partials/header.ejs") %>
-
-<h2><%= (question && !question.isNew) ? "Edit Question" : "Create New Question" %></h2>
-
 <form method="POST" action="/admin/questions"<%= (question && !question.isNew) ? "/update/" + question._id : "" %>>
     <div class="fields">
         <label for="questionText">Question Text:</label>
@@ -66,7 +61,3 @@
 
     <button type="submit"><%= (question && !question.isNew) ? "Update Question" : "Create Question" %></button>
 </form>
-
-<a href="/admin/questions">Back to Questions</a>
-
-<%- include("partials/footer.ejs") %>

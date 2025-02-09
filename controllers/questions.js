@@ -1,7 +1,7 @@
 const Question = require("../models/Question");
 const Category = require("../models/Category");
 const Difficulty = require("../models/Difficulty");
-const validationErrorsParser = require("../utils/parseValidationErrs");
+const validationErrorsParser = require("../utils/parseValidationErrors");
 const validationError = require("../constants/validationError");
 
 const getAllQuestions = async (req, res) => {
@@ -10,7 +10,7 @@ const getAllQuestions = async (req, res) => {
     .populate("difficultyId", "level")
     .sort({ createdAt: -1 });
 
-  return res.render("questions", { questions });
+  return res.render("admin/questions/questions", { questions });
 };
 const getQuestion = async (req, res) => {
   const question = await Question.findOne({
@@ -24,14 +24,18 @@ const getQuestion = async (req, res) => {
     throw new Error(`No question with id ${req.params.id}`);
   }
 
-  return res.render("questionDetail", { question });
+  return res.render("admin/questions/question", { question });
 };
 
 const newQuestion = async (req, res) => {
   const categories = await Category.find();
   const difficulties = await Difficulty.find();
 
-  res.render("question", { question: null, categories, difficulties });
+  res.render("admin/questions/new", {
+    question: null,
+    categories,
+    difficulties,
+  });
 };
 
 const createQuestion = async (req, res, next) => {
@@ -51,9 +55,9 @@ const createQuestion = async (req, res, next) => {
     const categories = await Category.find();
     const difficulties = await Difficulty.find();
 
-    return res.render("question", {
+    return res.render("admin/questions/new", {
       errors: req.flash("error"),
-      question: question,
+      question,
       categories,
       difficulties,
     });
@@ -72,7 +76,11 @@ const editQuestion = async (req, res) => {
   const categories = await Category.find();
   const difficulties = await Difficulty.find();
 
-  res.render("question", { question, categories, difficulties });
+  res.render("admin/questions/edit", {
+    question,
+    categories,
+    difficulties,
+  });
 };
 
 const updateQuestion = async (req, res, next) => {
@@ -83,7 +91,7 @@ const updateQuestion = async (req, res, next) => {
   );
 
   try {
-    const question = await Question.findOneAndUpdate(
+    await Question.findOneAndUpdate(
       { _id: req.params.id, userId: req.user.id },
       req.body,
       { new: true, runValidators: true },
@@ -97,7 +105,7 @@ const updateQuestion = async (req, res, next) => {
     const categories = await Category.find();
     const difficulties = await Difficulty.find();
 
-    return res.render("question", {
+    return res.render("edit", {
       errors: req.flash("error"),
       question,
       categories,

@@ -1,6 +1,8 @@
-<%- include("partials/head.ejs") %>
-<%- include("partials/header.ejs") %>
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
 <h2>Questions List</h2>
+
 <a href="/admin/questions/new">New Question</a>
 <table id="questions-table">
     <tr id="questions-table-header">
@@ -26,6 +28,11 @@
                     <% }) %>
                 </td>
                 <td>
+                    <a href="/admin/questions/<%= question.id %>">
+                        <button type="button">view</button>
+                    </a>
+                </td>
+                <td>
                     <a href="/admin/questions/edit/<%= question.id %>">
                         <button type="button">edit</button>
                     </a>
@@ -40,4 +47,5 @@
         <% }) %>
     <% } %>
 </table>
-<%- include("partials/footer.ejs") %>
+
+<%- include("../../layouts/footer.ejs") %>

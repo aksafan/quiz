@@ -1,6 +1,7 @@
-<%- include("partials/head.ejs") %>
-<%- include("partials/header.ejs") %>
-<form method="POST">
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<form method="POST" action="/auth/register">
     <div>
         <label name="name">Enter your name:</label>
         <input name="name"/>
@@ -25,4 +26,5 @@
         </a>
     </div>
 </form>
-<%- include("partials/footer.ejs") %>
+
+<%- include("../../layouts/footer.ejs") %>
