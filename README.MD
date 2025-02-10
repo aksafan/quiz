@@ -41,6 +41,7 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
     ```
 3. Create `.env` file in the root folder
 4. Add `MONGO_DB_CONNECTING_STRING` env var
+    - Run seeding to fill out DB with a testing data if needed `npm run seeds`
 5. Add `SESSION_SECRET` env var
 6. Run the application
    ```bash
