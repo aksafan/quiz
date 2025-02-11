@@ -6,7 +6,7 @@ const Category = require("../models/Category");
 const Difficulty = require("../models/Difficulty");
 const User = require("../models/User");
 
-require("./../db/connect")(process.env.MONGO_DB_CONNECTING_STRING)
+require("../config/db")(process.env.MONGO_DB_CONNECTING_STRING)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error(err));
 

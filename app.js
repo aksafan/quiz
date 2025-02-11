@@ -8,7 +8,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 // auth
 const passport = require("passport");
-const passportInit = require("./passport/passportInit");
+const passportInit = require("./config/passportInit");
 const authenticate = require("./middleware/authentication");
 const authorize = require("./middleware/authorization");
 // routers
@@ -24,7 +24,7 @@ const xss = require("xss-clean");
 const csrf = require("./middleware/csrf");
 const mongoSanitize = require("express-mongo-sanitize");
 // DB
-const connectDB = require("./db/connect");
+const connectDB = require("./config/db");
 
 const app = express();
 
