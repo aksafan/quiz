@@ -1,12 +1,12 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const faker = require("@faker-js/faker").faker;
-const Question = require("../models/Question");
-const Category = require("../models/Category");
-const Difficulty = require("../models/Difficulty");
-const User = require("../models/User");
+const Question = require("../../models/Question");
+const Category = require("../../models/Category");
+const Difficulty = require("../../models/Difficulty");
+const User = require("../../models/User");
 
-require("../config/db")(process.env.MONGO_DB_CONNECTING_STRING)
+require("../connection")(process.env.MONGO_DB_CONNECTING_STRING)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error(err));
 

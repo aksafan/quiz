@@ -24,7 +24,7 @@ const xss = require("xss-clean");
 const csrf = require("./middleware/csrf");
 const mongoSanitize = require("express-mongo-sanitize");
 // DB
-const connectDB = require("./config/db");
+const connectDB = require("./db/connection");
 
 const app = express();
 
