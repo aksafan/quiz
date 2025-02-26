@@ -8,7 +8,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 // auth
 const passport = require("passport");
-const passportInit = require("./config/passportInit");
+const passportInit = require("./services/passportInit");
 const authenticate = require("./middleware/authentication");
 const authorize = require("./middleware/authorization");
 // routers
