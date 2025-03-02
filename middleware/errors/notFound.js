@@ -1,5 +1,7 @@
+const CustomError = require("./../../errors");
+
 const notFound = (req, res) => {
-  res.status(404).render("errors/404", { url: req.originalUrl });
+  throw new CustomError.NotFoundError(`Sorry we can't find ${req.originalUrl}`);
 };
 
 module.exports = notFound;

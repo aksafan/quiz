@@ -2,7 +2,7 @@ const Question = require("../models/Question");
 const Category = require("../models/Category");
 const Difficulty = require("../models/Difficulty");
 const { parseValidationErrors, checkPermissions } = require("../utils");
-const validationError = require("../constants/validationError");
+const validationError = require("../constants/errors");
 const { ADMIN } = require("../constants/roles");
 const CustomError = require("../errors");
 
