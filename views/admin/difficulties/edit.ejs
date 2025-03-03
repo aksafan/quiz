@@ -1,0 +1,13 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Edit Difficulty</h2>
+
+<%- include("_form.ejs") %>
+
+<div>
+    <a href="/admin/difficulties/<%= difficulty._id %>">Show this Difficulty</a>
+    <a href="/admin/difficulties">Back to Difficulties</a>
+</div>
+
+<%- include("../../layouts/footer.ejs") %>

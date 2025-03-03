@@ -14,6 +14,7 @@ const authorize = require("./middleware/auth/authorization");
 // routers
 const questionsRouter = require("./routes/questions");
 const categoriesRouter = require("./routes/categories");
+const difficultiesRouter = require("./routes/difficulties");
 const authRouter = require("./routes/auth");
 // error handlers
 const notFoundErrorHandler = require("./middleware/errors/notFound");
@@ -77,6 +78,11 @@ app.use(
   "/admin/categories",
   [authenticate, authorize(ADMIN)],
   categoriesRouter,
+);
+app.use(
+  "/admin/difficulties",
+  [authenticate, authorize(ADMIN)],
+  difficultiesRouter,
 );
 
 // error handler middlewares

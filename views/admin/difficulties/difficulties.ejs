@@ -1,0 +1,46 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Difficulties List</h2>
+
+<a href="/admin/difficulties/new">New Difficulty</a>
+<% if (difficulties && difficulties.length) { %>
+    <table id="difficulties-table">
+        <tr id="difficulties-table-header">
+            <th>Level</th>
+            <th>Point Multiplier</th>
+            <th>Created At</th>
+            <th colspan="2"></th>
+        </tr>
+        <% difficulties.forEach((difficulty) => { %>
+            <tr>
+                <td><%= difficulty.level %></td>
+                <td><%= difficulty.pointMultiplier %></td>
+                <td><%= new Date(difficulty.createdAt).toLocaleDateString() %></td>
+                <td>
+                    <a href="/admin/difficulties/<%= difficulty.id %>">
+                        <button type="button">view</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="/admin/difficulties/edit/<%= difficulty.id %>">
+                        <button type="button">edit</button>
+                    </a>
+                </td>
+                <td>
+                    <form method="POST" action="/admin/difficulties/delete/<%= difficulty.id %>"
+                          style="display: inline">
+                        <button>delete</button>
+                        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+<% } else { %>
+    <div>
+        No data found
+    </div>
+<% } %>
+
+<%- include("../../layouts/footer.ejs") %>

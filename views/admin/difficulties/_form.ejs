@@ -1,0 +1,23 @@
+<form method="POST" action="/admin/difficulties<%= (difficulty && !difficulty.isNew) ? "/" + difficulty._id : "" %>">
+    <div class="fields">
+        <label for="level">Difficulty Level:</label>
+        <select name="level" id="level" required>
+            <% const difficultyLevels = ['Easy', 'Medium', 'Hard']; %>
+            <% difficultyLevels.forEach(level => { %>
+                <option value="<%= level %>" <%= difficulty && difficulty.level === level ? 'selected' : "" %>>
+                    <%= level %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="fields">
+        <label for="pointMultiplier">Point Multiplier:</label>
+        <input type="number" name="pointMultiplier" id="pointMultiplier"
+               value="<%= difficulty ? difficulty.pointMultiplier : "" %>"
+               required>
+    </div>
+
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+
+    <button type="submit"><%= (difficulty && !difficulty.isNew) ? "Update Difficulty" : "Create Difficulty" %></button>
+</form>
