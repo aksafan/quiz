@@ -1,0 +1,43 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Categories List</h2>
+
+<a href="/admin/categories/new">New Question</a>
+<% if (categories && categories.length) { %>
+    <table id="categories-table">
+        <tr id="categories-table-header">
+            <th>Category Name</th>
+            <th>Created At</th>
+            <th colspan="2"></th>
+        </tr>
+        <% categories.forEach((category) => { %>
+            <tr>
+                <td><%= category.name %></td>
+                <td><%= new Date(category.createdAt).toLocaleDateString() %></td>
+            </tr>
+            <td>
+                <a href="/admin/categories/<%= category.id %>">
+                    <button type="button">view</button>
+                </a>
+            </td>
+            <td>
+                <a href="/admin/categories/edit/<%= category.id %>">
+                    <button type="button">edit</button>
+                </a>
+            </td>
+            <td>
+                <form method="POST" action="/admin/categories/delete/<%= category.id %>" style="display: inline">
+                    <button>delete</button>
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                </form>
+            </td>
+        <% }) %>
+    </table>
+<% } else { %>
+    <div>
+        No data found
+    </div>
+<% } %>
+
+<%- include("../../layouts/footer.ejs") %>

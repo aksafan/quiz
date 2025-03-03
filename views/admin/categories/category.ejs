@@ -1,0 +1,22 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Category Details</h2>
+
+<p><strong>Category Name:</strong> <%= category.name %></p>
+<p><strong>Created At:</strong> <%= new Date(category.createdAt).toLocaleString() %></p>
+
+<a href="/admin/categories/edit/<%= category._id %>">
+    <button>Edit</button>
+</a>
+
+<form method="POST" action="/admin/categories/delete/<%= category._id %>" style="display: inline">
+    <button>Delete</button>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+
+<a href="/admin/categories">
+    <button>Back to List</button>
+</a>
+
+<%- include("../../layouts/footer.ejs") %>
