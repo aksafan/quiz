@@ -39,11 +39,9 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
     ```bash
     npm install
     ```
-3. Create `.env` file in the root folder
-4. Add `MONGO_DB_CONNECTING_STRING` env var
-    - Run seeding to fill out DB with a testing data if needed `npm run seeds`
-5. Add `SESSION_SECRET` env var
-6. Run the application
+3. Create `.env` file in the root folder (you can copy from `.env.example` and set it with your vars)
+4. Run seeding to fill out DB with a testing data if needed `npm run seeds`
+5. Run the application
    ```bash
    npm start
     ```
@@ -102,6 +100,8 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
 
 ### **Security & Performance**
 
+TBD
+
 | Method | Endpoint                     | Description                              |
 |--------|------------------------------|------------------------------------------|
 | `GET`  | `/security/captcha`          | Get CAPTCHA challenge before quiz starts |
@@ -109,6 +109,8 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
 | `GET`  | `/security/rate-limit`       | View rate-limiting status (admin only)   |
 
 ### **Future Features (Leaderboard & Social)**
+
+TBD
 
 | Method | Endpoint       | Description                      |
 |--------|----------------|----------------------------------|
@@ -267,9 +269,9 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
 
 | ID    | Feature                | Priority     | Done (✅) |
 |-------|------------------------|--------------|----------|
-| US-01 | Register an account    | 🔴 MUST HAVE | ❌        |
-| US-02 | Login to the system    | 🔴 MUST HAVE | ❌        |
-| US-03 | Logout from the system | 🔴 MUST HAVE | ❌        |
+| US-01 | Register an account    | 🔴 MUST HAVE | ✅        |
+| US-02 | Login to the system    | 🔴 MUST HAVE | ✅        |
+| US-03 | Logout from the system | 🔴 MUST HAVE | ✅        |
 
 ### Quiz Participation
 
@@ -285,9 +287,9 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
 
 | ID    | Feature                               | Priority       | Done (✅) |
 |-------|---------------------------------------|----------------|----------|
-| US-09 | Add new questions                     | 🔴 MUST HAVE   | ❌        |
-| US-10 | Update existing questions             | 🔴 MUST HAVE   | ❌        |
-| US-11 | Delete unwanted questions             | 🔴 MUST HAVE   | ❌        |
+| US-09 | Add new questions                     | 🔴 MUST HAVE   | ✅        |
+| US-10 | Update existing questions             | 🔴 MUST HAVE   | ✅        |
+| US-11 | Delete unwanted questions             | 🔴 MUST HAVE   | ✅        |
 | US-12 | Search, filter & sort questions       | 🟠 SHOULD HAVE | ❌        |
 | US-13 | Manage categories & difficulty levels | 🟠 SHOULD HAVE | ❌        |
 | US-14 | Manage user roles                     | 🟡 COULD HAVE  | ❌        |
