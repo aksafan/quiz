@@ -1,0 +1,63 @@
+<form method="POST" action="/admin/questions<%= (question && !question.isNew) ? "/" + question._id : "" %>">
+    <div class="fields">
+        <label for="questionText">Question Text:</label>
+        <input type="text" name="questionText" id="questionText" value="<%= question ? question.questionText : "" %>"
+               required>
+    </div>
+    <div class="fields">
+        <label for="categoryId">Category:</label>
+        <select name="categoryId" id="categoryId" required>
+            <% categories.forEach(category => { %>
+                <option value="<%= category._id %>" <%= question && question.categoryId.toString() === category._id.toString() ? 'selected' : "" %>>
+                    <%= category.name %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="fields">
+        <label for="difficultyId">Difficulty:</label>
+        <select name="difficultyId" id="difficultyId" required>
+            <% difficulties.forEach(difficulty => { %>
+                <option value="<%= difficulty._id %>" <%= question && question.difficultyId.toString() === difficulty._id.toString() ? 'selected' : "" %>>
+                    <%= difficulty.level %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="fields">
+        <label for="type">Question Type:</label>
+        <select name="type" id="type" required>
+            <% const questionTypes = ['multiple-choice', 'single-choice', 'fill-in']; %>
+            <% questionTypes.forEach(type => { %>
+                <option value="<%= type %>" <%= question && question.type === type ? 'selected' : "" %>>
+                    <%= type %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="fields">
+        <label for="options">Options:</label>
+        <div id="options-container">
+            <% for (let i = 0; i < 4; i++) { %>
+                <div class="option-group">
+                    <input type="text" name="options[<%= i %>][id]"
+                           value="<%= question && question.options[i] ? question.options[i].id : "" %>"
+                           placeholder="A, B, C, D" required>
+                    <input type="text" name="options[<%= i %>][text]"
+                           value="<%= question && question.options[i] ? question.options[i].text : "" %>"
+                           placeholder="Option text" required>
+                </div>
+            <% } %>
+        </div>
+
+    </div>
+    <div class="fields">
+        <label for="correctAnswer">Correct Answer:</label>
+        <input type="text" name="correctAnswer" id="correctAnswer" value="<%= question ? question.correctAnswer : "" %>"
+               required>
+    </div>
+
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+
+    <button type="submit"><%= (question && !question.isNew) ? "Update Question" : "Create Question" %></button>
+</form>

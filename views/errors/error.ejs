@@ -1,0 +1,6 @@
+<%- include("../layouts/head.ejs", {title: "Internal Server Error"}) %>
+<%- include("../layouts/header.ejs") %>
+<h1><%= statusCode %>: <%= reasonPhrase %></h1>
+<p><%= message %></p>
+<a href="/">Go Home</a>
+<%- include("../layouts/footer.ejs") %>

@@ -1,0 +1,32 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Question Details</h2>
+
+<p><strong>Question:</strong> <%= question.questionText %></p>
+<p><strong>Category:</strong> <%= question.categoryId ? question.categoryId.name : 'Unknown' %></p>
+<p><strong>Difficulty:</strong> <%= question.difficultyId ? question.difficultyId.level : 'Unknown' %></p>
+<p><strong>Type:</strong> <%= question.type %></p>
+<p><strong>Options:</strong></p>
+<ul>
+    <% question.options.forEach(option => { %>
+        <li><%= option.id %>: <%= option.text %></li>
+    <% }) %>
+</ul>
+<p><strong>Correct Answer:</strong> <%= question.correctAnswer %></p>
+<p><strong>Created At:</strong> <%= new Date(question.createdAt).toLocaleString() %></p>
+
+<a href="/admin/questions/edit/<%= question._id %>">
+    <button>Edit</button>
+</a>
+
+<form method="POST" action="/admin/questions/delete/<%= question._id %>" style="display: inline">
+    <button>Delete</button>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+
+<a href="/admin/questions">
+    <button>Back to List</button>
+</a>
+
+<%- include("../../layouts/footer.ejs") %>

@@ -1,0 +1,23 @@
+<h1>The Quiz Application</h1>
+<% if (user) { %>
+    <p>User <%= user.username %> is logged on.</p>
+    <form method="POST" action="/auth/logoff">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <button>Logoff</button>
+    </form>
+<% } %>
+<% if (errors) {
+errors.forEach((err) => { %>
+    <div>
+        Error: <%= err %>
+    </div>
+<% })
+} %>
+<% if (info) {
+info.forEach((msg) => { %>
+    <div>
+        Info: <%= msg %>
+    </div>
+<% })
+} %>
+<hr/>
