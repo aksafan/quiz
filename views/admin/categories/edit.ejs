@@ -1,0 +1,13 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Edit Category</h2>
+
+<%- include("_form.ejs") %>
+
+<div>
+    <a href="/admin/categories/<%= category._id %>">Show this Category</a>
+    <a href="/admin/categories">Back to Categories</a>
+</div>
+
+<%- include("../../layouts/footer.ejs") %>
