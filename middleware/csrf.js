@@ -1,6 +1,6 @@
 const csrf = require("host-csrf");
 
-const csrf_middleware = (csrf_development_mode) => {
+const csrfMiddleware = (csrf_development_mode) => {
   return csrf({
     protected_operations: ["PATCH"],
     protected_content_types: ["application/json"],
@@ -8,4 +8,4 @@ const csrf_middleware = (csrf_development_mode) => {
   });
 };
 
-module.exports = csrf_middleware;
+module.exports = csrfMiddleware;

@@ -1,16 +1,16 @@
 // Module dependencies
 const express = require("express");
 require("express-async-errors");
-// session persistence
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
 require("dotenv").config();
+// session persistence
+const sessionParms = require("./config/configureSessionParams");
+const sessionMiddleware = require("./middleware/session")(sessionParms);
 const cookieParser = require("cookie-parser");
 // auth
 const passport = require("passport");
 const passportInit = require("./services/passportInit");
-const authenticate = require("./middleware/authentication");
-const authorize = require("./middleware/authorization");
+const authenticate = require("./middleware/auth/authentication");
+const authorize = require("./middleware/auth/authorization");
 // routers
 const questionsRouter = require("./routes/questions");
 const authRouter = require("./routes/auth");
@@ -18,6 +18,7 @@ const authRouter = require("./routes/auth");
 const notFoundErrorHandler = require("./middleware/errors/notFound");
 const errorHandlerMiddleware = require("./middleware/errors/errorHandler");
 // extra security packages
+const configureRateLimiter = require("./config/configureRateLimiter");
 const rateLimiter = require("express-rate-limit");
 const helmet = require("helmet");
 const xss = require("xss-clean");
@@ -35,24 +36,9 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(require("connect-flash")());
+app.use(express.static("./public"));
 
-// session-persisted message middleware
-const url = process.env.MONGO_DB_CONNECTING_STRING;
-const store = new MongoDBStore({
-  uri: url,
-  collection: "mySessions",
-});
-store.on("error", function (error) {
-  console.log(error);
-});
-const sessionParms = {
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  store: store,
-  cookie: { secure: false, sameSite: "strict" },
-};
-app.use(session(sessionParms));
+app.use(sessionMiddleware);
 
 // csrf-protection middleware
 let csrf_development_mode = true;
@@ -64,12 +50,7 @@ if (app.get("env") === "production") {
 app.use(csrf(csrf_development_mode));
 
 // extra security middlewares
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-  }),
-);
+app.use(rateLimiter(configureRateLimiter));
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());

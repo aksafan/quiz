@@ -1,5 +1,5 @@
 const { StatusCodes, getReasonPhrase } = require("http-status-codes");
-const errors = require("../../constants/errors");
+const errors = require("../../constants/customErrors");
 
 const errorHandlerMiddleware = (err, req, response, next) => {
   let customError = {
