@@ -1,0 +1,23 @@
+<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/header.ejs") %>
+
+<h2>Difficulty Details</h2>
+
+<p><strong>Level:</strong> <%= difficulty.level %></p>
+<p><strong>Point Multiplier:</strong> <%= difficulty.pointMultiplier %></p>
+<p><strong>Created At:</strong> <%= new Date(difficulty.createdAt).toLocaleString() %></p>
+
+<a href="/admin/difficulties/edit/<%= difficulty._id %>">
+    <button>Edit</button>
+</a>
+
+<form method="POST" action="/admin/difficulties/delete/<%= difficulty._id %>" style="display: inline">
+    <button>Delete</button>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+
+<a href="/admin/difficulties">
+    <button>Back to List</button>
+</a>
+
+<%- include("../../layouts/footer.ejs") %>
