@@ -1,4 +1,4 @@
-<form method="POST" action="/admin/questions"<%= (question && !question.isNew) ? "/update/" + question._id : "" %>>
+<form method="POST" action="/admin/questions<%= (question && !question.isNew) ? "/" + question._id : "" %>">
     <div class="fields">
         <label for="questionText">Question Text:</label>
         <input type="text" name="questionText" id="questionText" value="<%= question ? question.questionText : "" %>"

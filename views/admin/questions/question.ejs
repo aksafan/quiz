@@ -20,6 +20,11 @@
     <button>Edit</button>
 </a>
 
+<form method="POST" action="/admin/questions/delete/<%= question._id %>" style="display: inline">
+    <button>Delete</button>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+
 <a href="/admin/questions">
     <button>Back to List</button>
 </a>

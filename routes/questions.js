@@ -1,4 +1,6 @@
 const express = require("express");
+const setQuestion = require("../middleware/questions/setQuestion");
+const authorizeQuestion = require("../middleware/questions/authorizeQuestion");
 
 const router = express.Router();
 
@@ -15,9 +17,14 @@ const {
 router.route("/").get(getAllQuestions).post(createQuestion);
 
 router.route("/new").get(newQuestion);
-router.route("/edit/:id").get(editQuestion);
-router.route("/delete/:id").post(deleteQuestion);
+router.route("/edit/:id").get(setQuestion, authorizeQuestion, editQuestion);
+router
+  .route("/delete/:id")
+  .post(setQuestion, authorizeQuestion, deleteQuestion);
 
-router.route("/:id").get(getQuestion).post(updateQuestion);
+router
+  .route("/:id")
+  .get(setQuestion, authorizeQuestion, getQuestion)
+  .post(setQuestion, authorizeQuestion, updateQuestion);
 
 module.exports = router;

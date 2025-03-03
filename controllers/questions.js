@@ -2,7 +2,7 @@ const Question = require("../models/Question");
 const Category = require("../models/Category");
 const Difficulty = require("../models/Difficulty");
 const { parseValidationErrors, checkPermissions } = require("../utils");
-const validationError = require("../constants/errors");
+const customErrorsConstants = require("../constants/customErrors");
 const { ADMIN } = require("../constants/roles");
 const CustomError = require("../errors");
 
@@ -16,17 +16,9 @@ const getAllQuestions = async (req, res) => {
 
   return res.render("admin/questions/questions", { questions });
 };
+
 const getQuestion = async (req, res) => {
-  const question = await Question.findOne({ _id: req.params.id })
-    .populate("categoryId", "name")
-    .populate("difficultyId", "level");
-
-  if (!question) {
-    throw new CustomError.NotFoundError(`No question with id ${req.params.id}`);
-  }
-  checkPermissions(req.user, question.userId);
-
-  return res.render("admin/questions/question", { question });
+  return res.render("admin/questions/question", { question: req.question });
 };
 
 const newQuestion = async (req, res) => {
@@ -48,7 +40,7 @@ const createQuestion = async (req, res, next) => {
 
     return res.redirect(`/admin/questions/${question._id}`);
   } catch (e) {
-    if (e.constructor.name === validationError) {
+    if (e.constructor.name === customErrorsConstants.VALIDATION_ERROR) {
       parseValidationErrors(e, req);
     } else {
       return next(e);
@@ -67,44 +59,24 @@ const createQuestion = async (req, res, next) => {
 };
 
 const editQuestion = async (req, res) => {
-  const question = await Question.findById(req.params.id)
-    .populate("categoryId", "name")
-    .populate("difficultyId", "level");
-
-  if (!question) {
-    throw new CustomError.NotFoundError(`No question with id ${req.params.id}`);
-  }
-  checkPermissions(req.user, question.userId);
-
   const categories = await Category.find();
   const difficulties = await Difficulty.find();
 
   res.render("admin/questions/edit", {
-    question,
+    question: req.question,
     categories,
     difficulties,
   });
 };
 
 const updateQuestion = async (req, res, next) => {
-  const question = await Question.findOneAndUpdate(
-    { _id: req.params.id },
-    req.body,
-    { new: true, runValidators: true },
-  );
-  if (!question) {
-    throw new CustomError.NotFoundError(`No question with id ${req.params.id}`);
-  }
-  checkPermissions(req.user, question.userId);
-
   try {
-    await Question.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id },
-      req.body,
-      { new: true, runValidators: true },
-    );
+    Object.assign(req.question, req.body);
+
+    await req.question.validate();
+    await req.question.save();
   } catch (e) {
-    if (e.constructor.name === validationErrors.ERROR) {
+    if (e.constructor.name === customErrorsConstants.VALIDATION_ERROR) {
       parseValidationErrors(e, req);
     } else {
       return next(e);
@@ -112,27 +84,24 @@ const updateQuestion = async (req, res, next) => {
     const categories = await Category.find();
     const difficulties = await Difficulty.find();
 
-    return res.render("edit", {
+    return res.render("admin/questions/edit", {
       errors: req.flash("error"),
-      question,
+      question: req.question,
       categories,
       difficulties,
     });
   }
 
-  return res.redirect(`/admin/questions${question._id}`);
+  return res.redirect(`/admin/questions/${req.question._id}`);
 };
 
 const deleteQuestion = async (req, res) => {
-  const question = await Question.findByIdAndDelete({
-    _id: req.params.id,
-    userId: req.user.id,
-  });
-
-  if (!question) {
-    throw new CustomError.NotFoundError(`No question with id ${req.user.id}`);
+  const result = await req.question.deleteOne();
+  if (!result) {
+    throw new CustomError.NotFoundError(
+      `No question with id ${req.params.id} was deleted`,
+    );
   }
-  checkPermissions(req.user, question.userId);
 
   return res.redirect(`/admin/questions`);
 };
