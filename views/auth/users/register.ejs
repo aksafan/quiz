@@ -3,26 +3,29 @@
 
 <form method="POST" action="/auth/register">
     <div>
-        <label name="username">Enter your name:</label>
+        <label name="username">Username</label>
         <input name="username"/>
     </div>
     <div>
-        <label name="email">Enter your email:</label>
+        <label name="email">Email</label>
         <input name="email"/>
     </div>
     <div>
-        <label name="password">Enter your password:</label>
+        <label name="password">Password</label>
         <input type="password" name="password"/>
     </div>
     <div>
-        <label name="password1">Confirm your password:</label>
+        <label name="password1">Repeat password</label>
         <input type="password" name="password1"/>
     </div>
     <input type="hidden" name="_csrf" value="<%= _csrf %>">
     <div>
-        <button>Register</button>
-        <a href="/">
-            <button type="button">Cancel</button>
+        <button>Submit</button>
+    </div>
+    <div>
+        Already registered?
+        <a href="/auth/logon">
+            <button type="button">Login</button>
         </a>
     </div>
 </form>
