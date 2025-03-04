@@ -1,14 +1,27 @@
-<h1>The Quiz Application</h1>
-<% if (user) { %>
-    <p>User <%= user.username %> is logged on.</p>
-    <form method="POST" action="/auth/logoff">
-        <input type="hidden" name="_csrf" value="<%= _csrf %>">
-        <button>Logoff</button>
-    </form>
-<% } %>
+<header class="flex items-center justify-between shadow-md p-4">
+    <a href="/"><img src="/images/logo.png" alt="Logo" class="w-16 h-16"/></a>
+    <% if (user) { %>
+        <% if (user.isAdmin) { %>
+            <div class="flex content-start gap-6">
+                <a href="/admin/questions">Questions</a>
+                <a href="/admin/categories">Categories</a>
+                <a href="/admin/difficulties">Difficulties</a>
+            </div>
+        <% } %>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="rounded-full bg-indigo-800 uppercase text-white border border-white w-[40px] h-[40px] flex items-center justify-center"><%= user.username.slice(0, 1) %></div><%= user.username %>
+            </div>
+            <form method="POST" action="/auth/logoff">
+                <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                <button>Logoff</button>
+            </form>
+        </div>
+    <% } %>
+</header>
 <% if (errors) {
 errors.forEach((err) => { %>
-    <div>
+    <div class="absolute right-2 top-2 p-4 bg-red-400 text-white rounded-md">
         Error: <%= err %>
     </div>
 <% })
@@ -20,4 +33,4 @@ info.forEach((msg) => { %>
     </div>
 <% })
 } %>
-<hr/>
+

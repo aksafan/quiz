@@ -1,12 +1,27 @@
 <%- include("layouts/head.ejs") %>
 <%- include("layouts/header.ejs") %>
 <% if (user) { %>
-    <a href="/quiz">Click this link to Start a Quiz.</a>
-    <a href="/admin/questions">Click this link to view/change Questions.</a>
-    <a href="/admin/categories">Click this link to view/change Categories.</a>
-    <a href="/admin/difficulties">Click this link to view/change Difficulties.</a>
+    <main class="grid grid-cols-4 gap-4 p-4 min-h-[calc(100vh-40px-72px)]">
+        <a href="/quiz"
+           class="text-xl font-bold transition flex shadow-md items-center justify-center  p-5 text-indigo-700 hover:shadow-lg rounded-md">Start
+            a Quiz</a>
+        <% if (user.isAdmin) { %>
+            <a href="/admin/questions"
+               class="text-xl font-bold transition flex shadow-md items-center justify-center  p-5 text-indigo-700 hover:shadow-lg rounded-md">Questions</a>
+            <a href="/admin/categories"
+               class="text-xl font-bold transition flex shadow-md items-center justify-center  p-5 text-indigo-700 hover:shadow-lg rounded-md">Categories</a>
+            <a href="/admin/difficulties"
+               class="text-xl font-bold transition flex shadow-md items-center justify-center  p-5 text-indigo-700 hover:shadow-lg rounded-md">Difficulties</a>
+        <% } %>
+    </main>
 <% } else { %>
-    <a href="/auth/logon">Click this link to logon.</a>
-    <a href="/auth/register">Click this link to register.</a>
+    <div class="mt-4 text-base text-center">
+        Click to
+        <a href="/auth/logon" class="underline underline-offset-4 text-indigo-700">logon</a>
+    </div>
+    <div class="mt-4 text-base text-center">
+        Click to
+        <a href="/auth/register" class="underline underline-offset-4 text-indigo-700">register</a>
+    </div>
 <% } %>
 <%- include("layouts/footer.ejs") %>

@@ -1,46 +1,52 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="pl-2 text-base">
 
-<h2>Difficulties List</h2>
-
-<a href="/admin/difficulties/new">New Difficulty</a>
-<% if (difficulties && difficulties.length) { %>
-    <table id="difficulties-table">
-        <tr id="difficulties-table-header">
-            <th>Level</th>
-            <th>Point Multiplier</th>
-            <th>Created At</th>
-            <th colspan="2"></th>
-        </tr>
-        <% difficulties.forEach((difficulty) => { %>
-            <tr>
-                <td><%= difficulty.level %></td>
-                <td><%= difficulty.pointMultiplier %></td>
-                <td><%= new Date(difficulty.createdAt).toLocaleDateString() %></td>
-                <td>
-                    <a href="/admin/difficulties/<%= difficulty.id %>">
-                        <button type="button">view</button>
-                    </a>
-                </td>
-                <td>
-                    <a href="/admin/difficulties/edit/<%= difficulty.id %>">
-                        <button type="button">edit</button>
-                    </a>
-                </td>
-                <td>
-                    <form method="POST" action="/admin/difficulties/delete/<%= difficulty.id %>"
-                          style="display: inline">
-                        <button>delete</button>
-                        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                    </form>
-                </td>
+    <h2 class="pr-2 text-2xl text-indigo-700 font-bold mt-8 mb-6 flex items-center justify-between">Difficulties List <a
+                href="/admin/difficulties/new"
+                class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">New
+            Difficulty</a></h2>
+    <% if (difficulties && difficulties.length) { %>
+        <table id="difficulties-table" class="table-auto w-full">
+            <tr id="difficulties-table-header">
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Level</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Point Multiplier</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Created At</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400" colspan="3"></th>
             </tr>
-        <% }) %>
-    </table>
-<% } else { %>
-    <div>
-        No data found
-    </div>
-<% } %>
-
+            <% difficulties.forEach((difficulty) => { %>
+                <tr>
+                    <td class="text-left p-2 border border-neutral-400"><%= difficulty.level %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= difficulty.pointMultiplier %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= new Date(difficulty.createdAt).toLocaleDateString() %></td>
+                    <td class="text-left p-2 border-b border-neutral-400">
+                        <a href="/admin/difficulties/<%= difficulty.id %>"
+                           class="px-8 py-2 rounded-md bg-gray-700 text-white text-base shadow-md hover:shadow-lg hover:bg-gray-800">
+                            view
+                        </a>
+                    </td>
+                    <td class="text-left p-2 border-b border-neutral-400">
+                        <a href="/admin/difficulties/edit/<%= difficulty.id %>"
+                           class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">
+                            edit
+                        </a>
+                    </td>
+                    <td class="text-left p-2 border-b border-neutral-400">
+                        <form method="POST" action="/admin/difficulties/delete/<%= difficulty.id %>"
+                              style="display: inline">
+                            <button class="px-8 py-2 rounded-md bg-red-700 text-white text-base shadow-md hover:shadow-lg hover:bg-red-800">
+                                delete
+                            </button>
+                            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } else { %>
+        <div>
+            No data found
+        </div>
+    <% } %>
+</main>
 <%- include("../../layouts/footer.ejs") %>

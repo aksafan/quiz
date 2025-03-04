@@ -1,14 +1,14 @@
 <%- include("../layouts/head.ejs") %>
 <%- include("../layouts/header.ejs") %>
+<main class="mx-auto pl-2 text-base w-1/2 min-h-[calc(100vh-40px-72px)] pt-4 flex flex-col items-center justify-center">
+    <h2 class="text-6xl text-center text-indigo-700 font-bold mb-6">Your results</h2>
 
-<h1>
-    Your results
-</h1>
+    <div class="rounded-full w-[250px] h-[250px] bg-white text-indigo-900 border-[5px] border-indigo-600 text-center flex items-center justify-center mx-auto mt-8">
+        <p class="text-6xl"><span class="text-indigo-500"><%= score %></span> / <%= total %></p>
+    </div>
 
-<div class="fields">
-    <p><%= score %> / <%= total %></p>
-</div>
-
-<a href="/quiz">Start the game</a>
-
+    <a href="/quiz"
+       class="px-8 mt-8 py-2  rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800 w-auto">Start
+        new game</a>
+</main>
 <%- include("../layouts/footer.ejs") %>

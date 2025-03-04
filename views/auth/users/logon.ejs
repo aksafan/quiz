@@ -1,25 +1,31 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="container mx-auto flex flex-col items-center justify-center h-[calc(100vh-40px)]">
+    <h1 class="text-2xl text-center text-indigo-700 font-bold mt-8 mb-6">Login</h1>
+    <form method="POST" action="/auth/logon" class="max-w-[400px] mx-auto mt-8 w-full">
+        <div class="flex flex-col mb-2 text-sm">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email"
+                   class="text-indigo-900 border p-2 border-neutral-400 rounded-md"/>
+        </div>
+        <div class="flex flex-col mb-2 text-sm">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password"
+                   class="text-indigo-900 border p-2 border-neutral-400 rounded-md "/>
+        </div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
 
-<form method="POST" action="/auth/logon">
-    <div class="fields">
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email"/>
-    </div>
-    <div class="fields">
-        <label for="password">Password</label>
-        <input id="password" type="password" name="password"/>
-    </div>
-    <input type="hidden" name="_csrf" value="<%= _csrf %>">
-    <div>
-        <button>Submit</button>
-    </div>
-    <div>
-        Do not have account?
-        <a href="/auth/register">
-            <button type="button">Register</button>
-        </a>
-    </div>
-</form>
+        <button class="px-8 py-2 block rounded-md bg-indigo-700 text-white text-base  mx-auto shadow-md hover:shadow-lg hover:bg-indigo-800">
+            Submit
+        </button>
+
+        <div class="mt-4 text-base text-right">
+            Do not have account?
+            <a href="/auth/register" class="underline underline-offset-4 text-indigo-700">
+                Register
+            </a>
+        </div>
+    </form>
+</main>
 
 <%- include("../../layouts/footer.ejs") %>

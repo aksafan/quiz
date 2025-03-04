@@ -1,13 +1,14 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="container mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-40px)]">
+    <h2 class="text-2xl text-center text-indigo-700 font-bold mt-8 mb-6">Edit Category</h2>
 
-<h2>Edit Category</h2>
+    <%- include("_form.ejs") %>
 
-<%- include("_form.ejs") %>
+    <a href="/admin/categories/<%= category._id %>" class="underline underline-offset-4 text-indigo-700">Show this
+        Category</a>
+    <a href="/admin/categories" class="underline underline-offset-4 text-indigo-700">Back to Categories</a>
 
-<div>
-    <a href="/admin/categories/<%= category._id %>">Show this Category</a>
-    <a href="/admin/categories">Back to Categories</a>
-</div>
+</main>
 
 <%- include("../../layouts/footer.ejs") %>

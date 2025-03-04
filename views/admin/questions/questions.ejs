@@ -1,55 +1,62 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="pl-2 text-base min-h-screen">
 
-<h2>Questions List</h2>
+    <h2 class="pr-2 text-2xl text-indigo-700 font-bold mt-8 mb-6 flex items-center justify-between">Questions List <a
+                href="/admin/questions/new"
+                class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">New
+            Question</a></h2>
 
-<a href="/admin/questions/new">New Question</a>
-<% if (questions && questions.length) { %>
-    <table id="questions-table">
-        <tr id="questions-table-header">
-            <th>Question</th>
-            <th>Category</th>
-            <th>Difficulty</th>
-            <th>Type</th>
-            <th>Created At</th>
-            <th>Options</th>
-            <th colspan="2"></th>
-        </tr>
-        <% questions.forEach((question) => { %>
-            <tr>
-                <td><%= question.questionText %></td>
-                <td><%= question.categoryId ? question.categoryId.name : 'Unknown' %></td>
-                <td><%= question.difficultyId ? question.difficultyId.level : 'Unknown' %></td>
-                <td><%= question.type %></td>
-                <td><%= new Date(question.createdAt).toLocaleDateString() %></td>
-                <td>
-                    <% question.options.forEach(option => { %>
-                        <%= option.id %>: <%= option.text %><br>
-                    <% }) %>
-                </td>
-                <td>
-                    <a href="/admin/questions/<%= question.id %>">
-                        <button type="button">view</button>
-                    </a>
-                </td>
-                <td>
-                    <a href="/admin/questions/edit/<%= question.id %>">
-                        <button type="button">edit</button>
-                    </a>
-                </td>
-                <td>
-                    <form method="POST" action="/admin/questions/delete/<%= question.id %>" style="display: inline">
-                        <button>delete</button>
-                        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                    </form>
-                </td>
+    <% if (questions && questions.length) { %>
+        <table id="questions-table" class="table-auto w-full">
+            <tr id="questions-table-header">
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Question</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Category</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Difficulty</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Type</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Created At</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Options</th>
+                <th colspan="3" class="text-left p-2 text-indigo-900 border border-neutral-400"></th>
             </tr>
-        <% }) %>
-    </table>
-<% } else { %>
-    <div>
-        No data found
-    </div>
-<% } %>
-
+            <% questions.forEach((question) => { %>
+                <tr>
+                    <td class="text-left p-2 border border-neutral-400"><%= question.questionText %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= question.categoryId ? question.categoryId.name : 'Unknown' %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= question.difficultyId ? question.difficultyId.level : 'Unknown' %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= question.type %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= new Date(question.createdAt).toLocaleDateString() %></td>
+                    <td class="text-left p-2 border border-neutral-400">
+                        <% question.options.forEach(option => { %>
+                            <%= option.id %>: <%= option.text %><br>
+                        <% }) %>
+                    </td>
+                    <td class="text-left pl-2 border-b border-neutral-400">
+                        <a href="/admin/questions/<%= question.id %>"
+                           class="px-8 py-2 rounded-md bg-gray-700 text-white text-base shadow-md hover:shadow-lg hover:bg-gray-800">
+                            view
+                        </a>
+                    </td>
+                    <td class="text-left border-b border-neutral-400">
+                        <a href="/admin/questions/edit/<%= question.id %>"
+                           class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">
+                            edit
+                        </a>
+                    </td>
+                    <td class="text-left border-b border-neutral-400">
+                        <form method="POST" action="/admin/questions/delete/<%= question.id %>" style="display: inline">
+                            <button class="px-8 py-2 rounded-md bg-red-700 text-white text-base shadow-md hover:shadow-lg hover:bg-red-800">
+                                delete
+                            </button>
+                            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } else { %>
+        <div class="text-indigo-900 text-xl text-center mt-4">
+            No data found
+        </div>
+    <% } %>
+</main>
 <%- include("../../layouts/footer.ejs") %>

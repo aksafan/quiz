@@ -1,23 +1,29 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="container mx-auto flex flex-col pl-2 text-base w-1/2 min-h-[calc(100vh-40px-72px)] pt-4">
+    <h2 class="text-2xl text-indigo-700 font-bold mb-6">Difficulty Details</h2>
 
-<h2>Difficulty Details</h2>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong>Level:</strong> <%= difficulty.level %></p>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong>Point
+            Multiplier:</strong> <%= difficulty.pointMultiplier %></p>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong>Created
+            At:</strong> <%= new Date(difficulty.createdAt).toLocaleString() %></p>
+    <div class="flex justify-center items-center mt-4 gap-4">
+        <a href="/admin/difficulties/edit/<%= difficulty._id %>"
+           class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">
+            Edit
+        </a>
 
-<p><strong>Level:</strong> <%= difficulty.level %></p>
-<p><strong>Point Multiplier:</strong> <%= difficulty.pointMultiplier %></p>
-<p><strong>Created At:</strong> <%= new Date(difficulty.createdAt).toLocaleString() %></p>
+        <form method="POST" action="/admin/difficulties/delete/<%= difficulty._id %>" style="display: inline">
+            <button class="px-8 py-2 rounded-md bg-red-700 text-white text-base shadow-md hover:shadow-lg hover:bg-red-800">
+                Delete
+            </button>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        </form>
 
-<a href="/admin/difficulties/edit/<%= difficulty._id %>">
-    <button>Edit</button>
-</a>
-
-<form method="POST" action="/admin/difficulties/delete/<%= difficulty._id %>" style="display: inline">
-    <button>Delete</button>
-    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-</form>
-
-<a href="/admin/difficulties">
-    <button>Back to List</button>
-</a>
-
+        <a href="/admin/difficulties" class="underline underline-offset-4 text-indigo-700">
+            Back to List
+        </a>
+    </div>
+</main>
 <%- include("../../layouts/footer.ejs") %>

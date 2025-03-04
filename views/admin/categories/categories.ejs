@@ -1,43 +1,52 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="pl-2 text-base min-h-screen">
 
-<h2>Categories List</h2>
+    <h2 class="pr-2 text-2xl text-indigo-700 font-bold mt-8 mb-6 flex items-center justify-between">Categories List <a
+                href="/admin/categories/new"
+                class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">New
+            Category</a></h2>
 
-<a href="/admin/categories/new">New Question</a>
-<% if (categories && categories.length) { %>
-    <table id="categories-table">
-        <tr id="categories-table-header">
-            <th>Category Name</th>
-            <th>Created At</th>
-            <th colspan="2"></th>
-        </tr>
-        <% categories.forEach((category) => { %>
-            <tr>
-                <td><%= category.name %></td>
-                <td><%= new Date(category.createdAt).toLocaleDateString() %></td>
+    <% if (categories && categories.length) { %>
+        <table id="categories-table" class="table-auto w-full">
+            <tr id="categories-table-header">
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Category Name</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400">Created At</th>
+                <th class="text-left p-2 text-indigo-900 border border-neutral-400" colspan="3"></th>
             </tr>
-            <td>
-                <a href="/admin/categories/<%= category.id %>">
-                    <button type="button">view</button>
-                </a>
-            </td>
-            <td>
-                <a href="/admin/categories/edit/<%= category.id %>">
-                    <button type="button">edit</button>
-                </a>
-            </td>
-            <td>
-                <form method="POST" action="/admin/categories/delete/<%= category.id %>" style="display: inline">
-                    <button>delete</button>
-                    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                </form>
-            </td>
-        <% }) %>
-    </table>
-<% } else { %>
-    <div>
-        No data found
-    </div>
-<% } %>
+            <% categories.forEach((category) => { %>
+                <tr>
+                    <td class="text-left p-2 border border-neutral-400"><%= category.name %></td>
+                    <td class="text-left p-2 border border-neutral-400"><%= new Date(category.createdAt).toLocaleDateString() %></td>
+                    <td class="text-left pl-2 border-b border-neutral-400">
+                        <a href="/admin/categories/<%= category.id %>"
+                           class="px-8 py-2 rounded-md bg-gray-700 text-white text-base shadow-md hover:shadow-lg hover:bg-gray-800">
+                            view
+                        </a>
+                    </td>
+                    <td class="text-left border-b border-neutral-400">
+                        <a href="/admin/categories/edit/<%= category.id %>"
+                           class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">
+                            edit
+                        </a>
+                    </td>
+                    <td class="text-left border-b border-neutral-400">
+                        <form method="POST" action="/admin/categories/delete/<%= category.id %>"
+                              style="display: inline">
+                            <button class="px-8 py-2 rounded-md bg-red-700 text-white text-base shadow-md hover:shadow-lg hover:bg-red-800">
+                                delete
+                            </button>
+                            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } else { %>
+        <div>
+            No data found
+        </div>
+    <% } %>
+</main>
 
 <%- include("../../layouts/footer.ejs") %>

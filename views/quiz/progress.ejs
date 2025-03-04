@@ -1,32 +1,38 @@
 <%- include("../layouts/head.ejs") %>
 <%- include("../layouts/header.ejs") %>
 
-<h1>
-    Game in progress
-</h1>
+<main class="mx-auto pl-2 text-base w-1/2 min-h-[calc(100vh-40px-72px)] pt-4">
+    <h2 class="text-2xl text-center text-indigo-700 font-bold mb-6"> Game in progress</h2>
 
-<form method="POST" action="/quiz/submit">
+    <form method="POST" action="/quiz/submit">
 
-    <% for (let i = 0; i < questions.length; i++) { %>
-        <div><%= i + 1 %>. <%= questions[i].questionText %></div>
-        <div>
-            <% for (let j = 0; j < questions[i].options.length; j++) { %>
-                <input
-                        type="radio"
-                        id="questionChoice<%= i %>_<%= j %>"
-                        name="answers[<%= questions[i]._id %>]"
-                        value="<%= questions[i].options[j].id %>"
-                        required
-                />
-                <label for="questionChoice<%= i %>_<%= j %>"> <%= questions[i].options[j].text %></label>
-            <% } %>
-        </div>
-    <% } %>
+        <% for (let i = 0; i < questions.length; i++) { %>
+            <div class="flex flex-col mb-5 text-base">
+                <div class="mb-2 text-xl font-bold text-indigo-900"><%= i + 1 %>. <%= questions[i].questionText %></div>
+                <div class="flex gap-2 items-center">
+                    <% for (let j = 0; j < questions[i].options.length; j++) { %>
+                        <input
+                                type="radio"
+                                id="questionChoice<%= i %>_<%= j %>"
+                                name="answers[<%= questions[i]._id %>]"
+                                value="<%= questions[i].options[j].id %>"
+                                required
 
-    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                        />
+                        <label class="cursor-pointer"
+                               for="questionChoice<%= i %>_<%= j %>"> <%= questions[i].options[j].text %></label>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
 
-    <button type="submit">Answer</button>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
 
-</form>
+        <button type="submit"
+                class="px-8 mx-auto py-2 block  rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">
+            Answer
+        </button>
 
+    </form>
+</main>
 <%- include("../layouts/footer.ejs") %>
