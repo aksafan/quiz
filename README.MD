@@ -41,6 +41,7 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
     ```
 3. Create `.env` file in the root folder (you can copy from `.env.example` and set it with your vars)
 4. Run seeding to fill out DB with a testing data if needed `npm run seeds`
+   (there will be a default admin user with email: `admin@example.com` and password: `admin@example.com`)
 5. Run the application
    ```bash
    npm start
@@ -277,9 +278,9 @@ TBD
 
 | ID    | Feature                              | Priority       | Done (✅) |
 |-------|--------------------------------------|----------------|----------|
-| US-04 | Select quiz category & difficulty    | 🔴 MUST HAVE   | ❌        |
-| US-05 | Answer questions with a timer        | 🔴 MUST HAVE   | ❌        |
-| US-06 | See final score after quiz           | 🔴 MUST HAVE   | ❌        |
+| US-04 | Select quiz category & difficulty    | 🔴 MUST HAVE   | ✅        |
+| US-05 | Answer questions with a timer        | 🔴 MUST HAVE   | ✅        |
+| US-06 | See final score after quiz           | 🔴 MUST HAVE   | ✅        |
 | US-07 | See correct answers after submission | 🟠 SHOULD HAVE | ❌        |
 | US-08 | View past quiz history               | 🟠 SHOULD HAVE | ❌        |
 
@@ -291,7 +292,7 @@ TBD
 | US-10 | Update existing questions             | 🔴 MUST HAVE   | ✅        |
 | US-11 | Delete unwanted questions             | 🔴 MUST HAVE   | ✅        |
 | US-12 | Search, filter & sort questions       | 🟠 SHOULD HAVE | ❌        |
-| US-13 | Manage categories & difficulty levels | 🟠 SHOULD HAVE | ❌        |
+| US-13 | Manage categories & difficulty levels | 🟠 SHOULD HAVE | ✅        |
 | US-14 | Manage user roles                     | 🟡 COULD HAVE  | ❌        |
 
 ### Leaderboards & Social Sharing (Future Features)
