@@ -1,32 +1,43 @@
 <%- include("../../layouts/head.ejs") %>
 <%- include("../../layouts/header.ejs") %>
+<main class="container mx-auto flex flex-col pl-2 text-base w-1/2 min-h-[calc(100vh-40px-72px)] pt-4">
+    <h2 class="text-2xl text-indigo-700 font-bold mt-8 mb-6">Question Details</h2>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong
+                class="text-indigo-900 text-xl">Question:</strong> <%= question.questionText %></p>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong
+                class="text-indigo-900 text-xl">Category:</strong> <%= question.categoryId ? question.categoryId.name : 'Unknown' %>
+    </p>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong
+                class="text-indigo-900 text-xl">Difficulty:</strong> <%= question.difficultyId ? question.difficultyId.level : 'Unknown' %>
+    </p>
+    <p class="mb-2 pb-2 border-b border-b-neutral-500"><strong
+                class="text-indigo-900 text-xl">Type:</strong> <%= question.type %></p>
+    <p class="mb-2 pb-2"><strong class="text-indigo-900 text-xl">Options:</strong></p>
+    <ul class="mb-2 pb-2 border-b border-b-neutral-500">
+        <% question.options.forEach(option => { %>
+            <li><b class="text-indigo-900 text-xl"><%= option.id %></b>: <%= option.text %></li>
+        <% }) %>
+    </ul>
+    <p class="mb-2 pb-2"><strong class="text-indigo-900 text-xl">Correct Answer:</strong> <%= question.correctAnswer %>
+    </p>
+    <p><strong class="text-indigo-900 text-xl">Created At:</strong> <%= new Date(question.createdAt).toLocaleString() %>
+    </p>
+    <div class="flex justify-center items-center mt-4 gap-4">
+        <a href="/admin/questions/edit/<%= question._id %>"
+           class="px-8 py-2 rounded-md bg-indigo-700 text-white text-base shadow-md hover:shadow-lg hover:bg-indigo-800">
+            Edit
+        </a>
 
-<h2>Question Details</h2>
-
-<p><strong>Question:</strong> <%= question.questionText %></p>
-<p><strong>Category:</strong> <%= question.categoryId ? question.categoryId.name : 'Unknown' %></p>
-<p><strong>Difficulty:</strong> <%= question.difficultyId ? question.difficultyId.level : 'Unknown' %></p>
-<p><strong>Type:</strong> <%= question.type %></p>
-<p><strong>Options:</strong></p>
-<ul>
-    <% question.options.forEach(option => { %>
-        <li><%= option.id %>: <%= option.text %></li>
-    <% }) %>
-</ul>
-<p><strong>Correct Answer:</strong> <%= question.correctAnswer %></p>
-<p><strong>Created At:</strong> <%= new Date(question.createdAt).toLocaleString() %></p>
-
-<a href="/admin/questions/edit/<%= question._id %>">
-    <button>Edit</button>
-</a>
-
-<form method="POST" action="/admin/questions/delete/<%= question._id %>" style="display: inline">
-    <button>Delete</button>
-    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-</form>
-
-<a href="/admin/questions">
-    <button>Back to List</button>
-</a>
+        <form method="POST" action="/admin/questions/delete/<%= question._id %>" style="display: inline">
+            <button class="px-8 py-2 rounded-md bg-red-700 text-white text-base shadow-md hover:shadow-lg hover:bg-red-800">
+                Delete
+            </button>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        </form>
+        <a href="/admin/questions" class="underline underline-offset-4 text-indigo-700">
+            Back to List
+        </a>
+    </div>
+</main>
 
 <%- include("../../layouts/footer.ejs") %>

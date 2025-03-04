@@ -1,32 +1,34 @@
-<form method="POST" action="/admin/questions<%= (question && !question.isNew) ? "/" + question._id : "" %>">
-    <div class="fields">
+<form class="max-w-[450px] mx-auto mt-8 w-full" method="POST"
+      action="/admin/questions<%= (question && !question.isNew) ? "/" + question._id : "" %>">
+    <div class="flex flex-col mb-2 text-sm">
         <label for="questionText">Question Text:</label>
-        <input type="text" name="questionText" id="questionText" value="<%= question ? question.questionText : "" %>"
+        <input class="text-indigo-900 border p-2 border-neutral-400 rounded-md" type="text" name="questionText"
+               id="questionText" value="<%= question ? question.questionText : "" %>"
                required>
     </div>
-    <div class="fields">
+    <div class="flex flex-col mb-2 text-sm">
         <label for="categoryId">Category:</label>
-        <select name="categoryId" id="categoryId" required>
+        <select name="categoryId" id="categoryId" required class="p-2 pl-0 border border-neutral-400 rounded-md">
             <% categories.forEach(category => { %>
-                <option value="<%= category._id %>" <%= question && question.categoryId.toString() === category._id.toString() ? 'selected' : "" %>>
+                <option value="<%= category._id %>" <%= question && question.categoryId && question.categoryId.toString() === category._id.toString() ? 'selected' : "" %>>
                     <%= category.name %>
                 </option>
             <% }) %>
         </select>
     </div>
-    <div class="fields">
+    <div class="flex flex-col mb-2 text-sm">
         <label for="difficultyId">Difficulty:</label>
-        <select name="difficultyId" id="difficultyId" required>
+        <select name="difficultyId" id="difficultyId" required class="p-2 pl-0 border border-neutral-400 rounded-md">
             <% difficulties.forEach(difficulty => { %>
-                <option value="<%= difficulty._id %>" <%= question && question.difficultyId.toString() === difficulty._id.toString() ? 'selected' : "" %>>
+                <option value="<%= difficulty._id %>" <%= question && question.difficultyId && question.difficultyId.toString() === difficulty._id.toString() ? 'selected' : "" %>>
                     <%= difficulty.level %>
                 </option>
             <% }) %>
         </select>
     </div>
-    <div class="fields">
+    <div class="flex flex-col mb-2 text-sm">
         <label for="type">Question Type:</label>
-        <select name="type" id="type" required>
+        <select name="type" id="type" required class="p-2 pl-0 border border-neutral-400 rounded-md">
             <% const questionTypes = ['multiple-choice', 'single-choice', 'fill-in']; %>
             <% questionTypes.forEach(type => { %>
                 <option value="<%= type %>" <%= question && question.type === type ? 'selected' : "" %>>
@@ -35,15 +37,17 @@
             <% }) %>
         </select>
     </div>
-    <div class="fields">
+    <div class="flex flex-col mb-2 text-sm">
         <label for="options">Options:</label>
         <div id="options-container">
             <% for (let i = 0; i < 4; i++) { %>
                 <div class="option-group">
-                    <input type="text" name="options[<%= i %>][id]"
+                    <input class="text-indigo-900 border p-2 border-neutral-400 rounded-md mb-1" type="text"
+                           name="options[<%= i %>][id]"
                            value="<%= question && question.options[i] ? question.options[i].id : "" %>"
                            placeholder="A, B, C, D" required>
-                    <input type="text" name="options[<%= i %>][text]"
+                    <input class="text-indigo-900 border p-2 border-neutral-400 rounded-md" type="text"
+                           name="options[<%= i %>][text]"
                            value="<%= question && question.options[i] ? question.options[i].text : "" %>"
                            placeholder="Option text" required>
                 </div>
@@ -51,13 +55,15 @@
         </div>
 
     </div>
-    <div class="fields">
+    <div class="flex flex-col mb-2 text-sm">
         <label for="correctAnswer">Correct Answer:</label>
-        <input type="text" name="correctAnswer" id="correctAnswer" value="<%= question ? question.correctAnswer : "" %>"
+        <input class="text-indigo-900 border p-2 border-neutral-400 rounded-md" type="text" name="correctAnswer"
+               id="correctAnswer" value="<%= question ? question.correctAnswer : "" %>"
                required>
     </div>
 
     <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
 
-    <button type="submit"><%= (question && !question.isNew) ? "Update Question" : "Create Question" %></button>
+    <button type="submit"
+            class="px-8 py-2 block rounded-md bg-indigo-700 text-white text-base  mx-auto shadow-md hover:shadow-lg hover:bg-indigo-800"><%= (question && !question.isNew) ? "Update Question" : "Create Question" %></button>
 </form>

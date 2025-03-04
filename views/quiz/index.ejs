@@ -1,27 +1,30 @@
 <%- include("../layouts/head.ejs") %>
 <%- include("../layouts/header.ejs") %>
+<main class="container mx-auto flex flex-col pl-2 text-base w-1/2 min-h-[calc(100vh-40px-72px)] pt-4">
+    <h2 class="text-2xl text-center text-indigo-700 font-bold mb-6">
+        Let’s play!
+    </h2>
 
-<h1>
-    Let’s play!
-</h1>
+    <form method="POST" action="/quiz/start" class="max-w-[450px] mx-auto mt-8 w-full">
 
-<form method="POST" action="/quiz/start">
+        <div class="flex flex-col mb-2 text-sm">
+            <label for="categoryId">Category:</label>
+            <select name="categoryId" id="categoryId" required class="p-2 pl-0 border border-neutral-400 rounded-md">
+                <% categories.forEach(category => { %>
+                    <option value="<%= category._id %>">
+                        <%= category.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
 
-    <div class="fields">
-        <label for="categoryId">Category:</label>
-        <select name="categoryId" id="categoryId" required>
-            <% categories.forEach(category => { %>
-                <option value="<%= category._id %>">
-                    <%= category.name %>
-                </option>
-            <% }) %>
-        </select>
-    </div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
 
-    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit"
+                class="px-8 py-2 block rounded-md bg-indigo-700 text-white text-base  mx-auto shadow-md hover:shadow-lg hover:bg-indigo-800">
+            Start the game
+        </button>
 
-    <button type="submit">Start the game</button>
-
-</form>
-
+    </form>
+</main>
 <%- include("../layouts/footer.ejs") %>
