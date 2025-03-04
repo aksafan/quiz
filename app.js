@@ -16,6 +16,7 @@ const questionsRouter = require("./routes/questions");
 const categoriesRouter = require("./routes/categories");
 const difficultiesRouter = require("./routes/difficulties");
 const authRouter = require("./routes/auth");
+const quizRouter = require("./routes/quiz");
 // error handlers
 const notFoundErrorHandler = require("./middleware/errors/notFound");
 const errorHandlerMiddleware = require("./middleware/errors/errorHandler");
@@ -84,6 +85,7 @@ app.use(
   [authenticate, authorize(ADMIN)],
   difficultiesRouter,
 );
+app.use("/quiz", [authenticate, authorize(ADMIN, USER)], quizRouter);
 
 // error handler middlewares
 app.use(notFoundErrorHandler);

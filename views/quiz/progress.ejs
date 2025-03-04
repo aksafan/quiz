@@ -1,0 +1,32 @@
+<%- include("../layouts/head.ejs") %>
+<%- include("../layouts/header.ejs") %>
+
+<h1>
+    Game in progress
+</h1>
+
+<form method="POST" action="/quiz/submit">
+
+    <% for (let i = 0; i < questions.length; i++) { %>
+        <div><%= i + 1 %>. <%= questions[i].questionText %></div>
+        <div>
+            <% for (let j = 0; j < questions[i].options.length; j++) { %>
+                <input
+                        type="radio"
+                        id="questionChoice<%= i %>_<%= j %>"
+                        name="answers[<%= questions[i]._id %>]"
+                        value="<%= questions[i].options[j].id %>"
+                        required
+                />
+                <label for="questionChoice<%= i %>_<%= j %>"> <%= questions[i].options[j].text %></label>
+            <% } %>
+        </div>
+    <% } %>
+
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+
+    <button type="submit">Answer</button>
+
+</form>
+
+<%- include("../layouts/footer.ejs") %>
