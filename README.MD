@@ -40,7 +40,7 @@ measures such as session-based authentication, CAPTCHA, and rate limiting ensure
     npm install
     ```
 3. Create `.env` file in the root folder (you can copy from `.env.example` and set it with your vars)
-4. Run seeding to fill out DB with a testing data if needed `npm run seeds`
+4. Run seeding to fill out DB with a testing data (from Open Trivia) if needed `npm run seeds 100`
    (there will be a default admin user with email: `admin@example.com` and password: `admin@example.com`)
 5. Run the application
    ```bash
