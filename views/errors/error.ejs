@@ -1,6 +1,16 @@
-<%- include("../layouts/head.ejs", {title: "Internal Server Error"}) %>
+<%- include("../layouts/head.ejs", {title: reasonPhrase}) %>
 <%- include("../layouts/header.ejs") %>
-<h1><%= statusCode %>: <%= reasonPhrase %></h1>
-<p><%= message %></p>
-<a href="/">Go Home</a>
+
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 ext-indigo-700 p-6">
+    <div class="max-w-md text-center bg-white shadow-lg rounded-2xl p-8">
+        <h1 class="text-6xl font-bold text-red-500"><%= statusCode %></h1>
+        <h2 class="text-2xl text-center text-indigo-700 font-bold my-6"><%= reasonPhrase %></h2>
+        <p class="text-lg text-gray-600 mt-2 mb-6"><%= message %></p>
+        <a href="/"
+           class="px-8 py-2 block rounded-md bg-indigo-700 text-white text-base  mx-auto shadow-md hover:shadow-lg hover:bg-indigo-800">
+            Go Home
+        </a>
+    </div>
+</div>
+
 <%- include("../layouts/footer.ejs") %>
