@@ -17,6 +17,11 @@ const startQuiz = async (req, res) => {
   const questions = await Question.find({
     categoryId: req.body.categoryId,
   }).limit(10);
+  if (questions.length === 0) {
+    throw new CustomError.NotFoundError(
+      `No questions were found for this category. Try another one.`,
+    );
+  }
 
   return res.render("quiz/progress", {
     questions,
