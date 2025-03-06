@@ -3,42 +3,41 @@ const bcrypt = require("bcryptjs");
 const { USER, ROLES } = require("../constants/roles");
 const Types = mongoose.Schema.Types;
 
-const UserSchema = new mongoose.Schema({
-  username: {
-    type: Types.String,
-    required: [true, "Please provide a username"],
-    unique: true,
-    trim: true,
-    minlength: 3,
-    maxlength: 30,
-    index: true,
+const UserSchema = new mongoose.Schema(
+  {
+    username: {
+      type: Types.String,
+      required: [true, "Please provide a username"],
+      unique: true,
+      trim: true,
+      minlength: 3,
+      maxlength: 30,
+      index: true,
+    },
+    email: {
+      type: Types.String,
+      required: [true, "Please provide email"],
+      trim: true,
+      match: [
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Please provide a valid email",
+      ],
+      unique: true,
+      index: true,
+    },
+    password: {
+      type: Types.String,
+      required: [true, "Please provide password"],
+      minlength: 8,
+    },
+    role: {
+      type: Types.String,
+      enum: Object.values(ROLES),
+      default: USER,
+    },
   },
-  email: {
-    type: Types.String,
-    required: [true, "Please provide email"],
-    trim: true,
-    match: [
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      "Please provide a valid email",
-    ],
-    unique: true,
-    index: true,
-  },
-  password: {
-    type: Types.String,
-    required: [true, "Please provide password"],
-    minlength: 8,
-  },
-  role: {
-    type: Types.String,
-    enum: Object.values(ROLES),
-    default: USER,
-  },
-  createdAt: {
-    type: Types.Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true },
+);
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

@@ -1,6 +1,6 @@
 const express = require("express");
-const setCategory = require("../middleware/categories/setCategory");
-const authorizeCategory = require("../middleware/categories/authorizeCategory");
+const setEntity = require("../middleware/setEntity");
+const authorizeEntity = require("../middleware/auth/authorizeEntity");
 
 const router = express.Router();
 
@@ -17,14 +17,28 @@ const {
 router.route("/").get(getAllCategories).post(createCategory);
 
 router.route("/new").get(newCategory);
-router.route("/edit/:id").get(setCategory, authorizeCategory, editCategory);
-router
-  .route("/delete/:id")
-  .post(setCategory, authorizeCategory, deleteCategory);
+router.route("/edit/:id").get(
+  (req, res, next) => setEntity("category", req, res, next),
+  (req, res, next) => authorizeEntity("category", req, res, next),
+  editCategory,
+);
+router.route("/delete/:id").post(
+  (req, res, next) => setEntity("category", req, res, next),
+  (req, res, next) => authorizeEntity("category", req, res, next),
+  deleteCategory,
+);
 
 router
   .route("/:id")
-  .get(setCategory, authorizeCategory, getCategory)
-  .post(setCategory, authorizeCategory, updateCategory);
+  .get(
+    (req, res, next) => setEntity("category", req, res, next),
+    (req, res, next) => authorizeEntity("category", req, res, next),
+    getCategory,
+  )
+  .post(
+    (req, res, next) => setEntity("category", req, res, next),
+    (req, res, next) => authorizeEntity("category", req, res, next),
+    updateCategory,
+  );
 
 module.exports = router;

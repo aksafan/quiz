@@ -1,6 +1,6 @@
 const express = require("express");
-const setQuestion = require("../middleware/questions/setQuestion");
-const authorizeQuestion = require("../middleware/questions/authorizeQuestion");
+const setEntity = require("../middleware/setEntity");
+const authorizeEntity = require("../middleware/auth/authorizeEntity");
 
 const router = express.Router();
 
@@ -17,14 +17,28 @@ const {
 router.route("/").get(getAllQuestions).post(createQuestion);
 
 router.route("/new").get(newQuestion);
-router.route("/edit/:id").get(setQuestion, authorizeQuestion, editQuestion);
-router
-  .route("/delete/:id")
-  .post(setQuestion, authorizeQuestion, deleteQuestion);
+router.route("/edit/:id").get(
+  (req, res, next) => setEntity("question", req, res, next),
+  (req, res, next) => authorizeEntity("question", req, res, next),
+  editQuestion,
+);
+router.route("/delete/:id").post(
+  (req, res, next) => setEntity("question", req, res, next),
+  (req, res, next) => authorizeEntity("question", req, res, next),
+  deleteQuestion,
+);
 
 router
   .route("/:id")
-  .get(setQuestion, authorizeQuestion, getQuestion)
-  .post(setQuestion, authorizeQuestion, updateQuestion);
+  .get(
+    (req, res, next) => setEntity("question", req, res, next),
+    (req, res, next) => authorizeEntity("question", req, res, next),
+    getQuestion,
+  )
+  .post(
+    (req, res, next) => setEntity("question", req, res, next),
+    (req, res, next) => authorizeEntity("question", req, res, next),
+    updateQuestion,
+  );
 
 module.exports = router;

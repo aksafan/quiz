@@ -12,11 +12,7 @@ const passportInit = require("./services/passportInit");
 const authenticate = require("./middleware/auth/authentication");
 const authorize = require("./middleware/auth/authorization");
 // routers
-const questionsRouter = require("./routes/questions");
-const categoriesRouter = require("./routes/categories");
-const difficultiesRouter = require("./routes/difficulties");
-const authRouter = require("./routes/auth");
-const quizRouter = require("./routes/quiz");
+const routers = require("./routes");
 // error handlers
 const notFoundErrorHandler = require("./middleware/errors/notFound");
 const errorHandlerMiddleware = require("./middleware/errors/errorHandler");
@@ -68,24 +64,24 @@ app.use(require("./middleware/setLocals"));
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.use("/auth", authRouter);
+app.use("/auth", routers.auth);
 const { ADMIN, USER } = require("./constants/roles");
 app.use(
   "/admin/questions",
   [authenticate, authorize(ADMIN, USER)],
-  questionsRouter,
+  routers.questions,
 );
 app.use(
   "/admin/categories",
   [authenticate, authorize(ADMIN)],
-  categoriesRouter,
+  routers.categories,
 );
 app.use(
   "/admin/difficulties",
   [authenticate, authorize(ADMIN)],
-  difficultiesRouter,
+  routers.difficulties,
 );
-app.use("/quiz", [authenticate, authorize(ADMIN, USER)], quizRouter);
+app.use("/quiz", [authenticate, authorize(ADMIN, USER)], routers.quiz);
 
 // error handler middlewares
 app.use(notFoundErrorHandler);
