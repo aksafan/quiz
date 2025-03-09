@@ -1,5 +1,5 @@
 const Category = require("../models/Category");
-const { parseValidationErrors } = require("../utils");
+const { parseValidationErrors, parseDuplicationErrors } = require("../utils");
 const customErrorsConstants = require("../constants/customErrors");
 const { ADMIN } = require("../constants/roles");
 const CustomError = require("../errors");
@@ -30,6 +30,8 @@ const createCategory = async (req, res, next) => {
   } catch (e) {
     if (e.constructor.name === customErrorsConstants.VALIDATION_ERROR) {
       parseValidationErrors(e, req);
+    } else if (e.code && e.code === 11000) {
+      parseDuplicationErrors(e, req);
     } else {
       return next(e);
     }
@@ -55,6 +57,8 @@ const updateCategory = async (req, res, next) => {
   } catch (e) {
     if (e.constructor.name === customErrorsConstants.VALIDATION_ERROR) {
       parseValidationErrors(e, req);
+    } else if (e.code && e.code === 11000) {
+      parseDuplicationErrors(e, req);
     } else {
       return next(e);
     }

@@ -14,7 +14,9 @@
             </div>
             <form method="POST" action="/auth/logoff">
                 <input type="hidden" name="_csrf" value="<%= _csrf %>">
-                <button>Logoff</button>
+                <button class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-300">
+                    Logout
+                </button>
             </form>
         </div>
     <% } %>

@@ -1,7 +1,7 @@
 const Question = require("../models/Question");
 const Category = require("../models/Category");
 const Difficulty = require("../models/Difficulty");
-const { parseValidationErrors } = require("../utils");
+const { parseValidationErrors, parseDuplicationErrors } = require("../utils");
 const customErrorsConstants = require("../constants/customErrors");
 const { ADMIN } = require("../constants/roles");
 const CustomError = require("../errors");
@@ -42,6 +42,8 @@ const createQuestion = async (req, res, next) => {
   } catch (e) {
     if (e.constructor.name === customErrorsConstants.VALIDATION_ERROR) {
       parseValidationErrors(e, req);
+    } else if (e.code && e.code === 11000) {
+      parseDuplicationErrors(e, req);
     } else {
       return next(e);
     }
@@ -78,6 +80,8 @@ const updateQuestion = async (req, res, next) => {
   } catch (e) {
     if (e.constructor.name === customErrorsConstants.VALIDATION_ERROR) {
       parseValidationErrors(e, req);
+    } else if (e.code && e.code === 11000) {
+      parseDuplicationErrors(e, req);
     } else {
       return next(e);
     }
