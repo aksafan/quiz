@@ -1,7 +1,11 @@
 const checkPermissions = require("./permissionsChecker");
-const parseValidationErrors = require("./validationErrorsParser");
+const {
+  parseValidationErrors,
+  parseDuplicationErrors,
+} = require("./validationErrorsParser");
 
 module.exports = {
   checkPermissions,
   parseValidationErrors,
+  parseDuplicationErrors,
 };
