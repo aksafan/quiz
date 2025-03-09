@@ -60,6 +60,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(require("./middleware/setLocals"));
 
+app.use(require("./middleware/setContentType"));
+
 // routes
 app.get("/", (req, res) => {
   res.render("index");
@@ -82,17 +84,30 @@ app.use(
   routers.difficulties,
 );
 app.use("/quiz", [authenticate, authorize(ADMIN, USER)], routers.quiz);
+app.get("/multiply", (req, res) => {
+  let result = req.query.first * req.query.second;
+  if (result.isNaN) {
+    result = "NaN";
+  } else if (result === null) {
+    result = "null";
+  }
+  res.json({ result: result });
+});
 
 // error handler middlewares
 app.use(notFoundErrorHandler);
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3000;
-const start = async () => {
+let mongoURL = process.env.MONGO_DB_CONNECTING_STRING;
+if (process.env.NODE_ENV === "test") {
+  mongoURL = process.env.MONGO_DB_CONNECTING_STRING_TEST;
+}
+const start = () => {
   try {
-    await connectDB(process.env.MONGO_DB_CONNECTING_STRING);
+    connectDB(mongoURL);
 
-    app.listen(port, () =>
+    return app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`),
     );
   } catch (error) {
@@ -101,3 +116,5 @@ const start = async () => {
 };
 
 start();
+
+module.exports = { app };
